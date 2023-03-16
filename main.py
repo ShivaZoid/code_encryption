@@ -91,30 +91,42 @@ def main():
         if not os.path.exists('key.key'):
             generate_key()
 
-        mode = input('Хотите зашифровать (e) или дешифровать (d) файл? ')
-        if mode not in ['e', 'd']:
-            raise ValueError('Некорректный режим работы. Введите (e) или (d).')
+        while True:
+            mode = input('Хотите зашифровать (e) или дешифровать (d) файл? '
+                         '(q) для выхода.')
+            if mode not in ['e', 'd', 'q']:
+                raise ValueError('Некорректный режим работы. '
+                                 'Введите (e) или (d).')
+            if mode == 'q':
+                print('Выход из программы...')
+                break
 
-        filename = input('Введите имя файла: ')
-        if not os.path.exists(filename):
-            raise FileNotFoundError(f'Файл "{filename}" не найден.')
+            filename = input('Введите имя файла: ')
+            if filename == 'q':
+                print('Выход из программы...')
+                break
+            if not os.path.exists(filename):
+                raise FileNotFoundError(f'Файл "{filename}" не найден.')
 
-        key = load_key()
+            key = load_key()
 
-        output_file = input('Введите имя выходного файла: ')
-        if os.path.exists(output_file):
-            overwrite = input(f'Файл "{output_file}" уже существует.'
-                              'Перезаписать? (y/n)')
-            if overwrite.lower() != 'y':
-                print('Операция отменена пользователем.')
-                return
+            output_file = input('Введите имя выходного файла: ')
+            if output_file == 'q':
+                print('Выход из программы...')
+                break
+            if os.path.exists(output_file):
+                overwrite = input(f'Файл "{output_file}" уже существует.'
+                                'Перезаписать? (y/n)')
+                if overwrite.lower() != 'y':
+                    print('Операция отменена пользователем.')
+                    return
 
-        if mode == 'e':
-            encrypt_file(key, filename, output_file)
-            print('Файл успешно зашифрован!')
-        elif mode == 'd':
-            decrypt_file(key, filename, output_file)
-            print('Файл успешно расшифрован!')
+            if mode == 'e':
+                encrypt_file(key, filename, output_file)
+                print('Файл успешно зашифрован!')
+            elif mode == 'd':
+                decrypt_file(key, filename, output_file)
+                print('Файл успешно расшифрован!')
     except FileNotFoundError as error:
         print(f"Произошла ошибка: {error}")
     except ValueError as error:
