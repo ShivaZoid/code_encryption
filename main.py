@@ -116,7 +116,7 @@ def main():
                 break
             if os.path.exists(output_file):
                 overwrite = input(f'Файл "{output_file}" уже существует.'
-                                'Перезаписать? (y/n)')
+                                  'Перезаписать? (y/n)')
                 if overwrite.lower() != 'y':
                     print('Операция отменена пользователем.')
                     return
