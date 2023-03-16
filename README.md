@@ -57,7 +57,7 @@ source venv/Scripts/activate
 python -m pip install -r requirements.txt
 ~~~
 
-5) Запуск приложения:
+5) Запуск программы:
 ~~~
 python main.py
 ~~~
